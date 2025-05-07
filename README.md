@@ -2,7 +2,7 @@
 
 A modern library management system built with PHP and Bootstrap 5 for managing books, users, and borrowing activities.
 
-![Bumi Library](assets/book_images/contoh.png)
+![Bumi Library](https://preview.redd.it/miku-is-trying-to-understand-calculus-v0-yabwi30m7m0b1.png?width=640&crop=smart&auto=webp&s=942d12fdd458463c48404c47536fd99ed9a0ec1a)
 
 ## 🌟 Features
 
