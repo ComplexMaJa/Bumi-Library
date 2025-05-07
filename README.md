@@ -1,175 +1,228 @@
-# Bumi Library <3
+<div align="center">
 
-A modern library management system built with PHP and Bootstrap 5 for managing books, users, and borrowing activities.
+# ✨ Bumi Library <3 ✨
 
-![Bumi Library](https://preview.redd.it/miku-is-trying-to-understand-calculus-v0-yabwi30m7m0b1.png?width=640&crop=smart&auto=webp&s=942d12fdd458463c48404c47536fd99ed9a0ec1a)
+<img src="https://preview.redd.it/miku-is-trying-to-understand-calculus-v0-yabwi30m7m0b1.png?width=640&crop=smart&auto=webp&s=942d12fdd458463c48404c47536fd99ed9a0ec1a" width="500px">
 
-## 🌟 Features
+### A modern library management system built with PHP and Bootstrap 5
 
-### For Administrators
-- **User Management**: Add, edit, and manage user accounts with different roles (admin/user)
-- **Book Management**: Catalog books with complete details (title, author, publisher, year, genre, stock)
-- **Book Cover Images**: Upload and manage cover images for books
-- **Dashboard**: Overview of library system with quick access to key functions
+[![PHP](https://img.shields.io/badge/PHP-7.4%2B-blue.svg)](https://www.php.net/)
+[![MySQL](https://img.shields.io/badge/MySQL-5.6%2B-orange.svg)](https://www.mysql.com/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.x-purple.svg)](https://getbootstrap.com/)
 
-### For Users
-- **Browse Books**: View and search through the library catalog
-- **Borrow Books**: Borrow books with a simple click (limit of 3 books per user)
-- **Track Loans**: See currently borrowed books and their due dates
-- **Return Books**: Record book returns easily
-
-### General Features
-- **Responsive Design**: Works on desktops, tablets, and mobile devices
-- **Beautiful UI**: Clean and modern Bootstrap 5 interface with animations
-- **Dynamic Login**: Interactive login page with time-of-day animations
-- **Multi-role Support**: Different interfaces for administrators and regular users
-- **Search Capabilities**: Find books quickly with the search function
-- **Pagination**: Navigate through large lists of books easily
-
-## 🔧 Technologies Used
-
-- **Backend**: PHP 7+
-- **Database**: MySQL
-- **Frontend**: 
-  - Bootstrap 5
-  - HTML5/CSS3
-  - JavaScript
-- **Libraries**:
-  - Bootstrap Icons
-  - Animate.css for smooth animations
-  - Custom interactive UI elements
-
-## 📋 Requirements
-
-- PHP 7.0 or higher
-- MySQL 5.6 or higher
-- Web server (Apache/Nginx)
-- Modern web browser
-
-## 🚀 Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/Bumi-Library.git
-   ```
-
-2. **Set up the database**
-   - Create a MySQL database named `bumi_library`
-   - Import the `bumi-library.sql` file to set up the database structure
-
-3. **Configure the connection**
-   - Edit `config/koneksi.php` with your database credentials
-   ```php
-   $host = 'localhost';  // Your database host
-   $db_user = 'root';    // Your database username
-   $db_pass = '';        // Your database password
-   $db_name = 'bumi_library'; // Your database name
-   ```
-
-4. **Place in web server directory**
-   - Move the entire project to your web server's document root (e.g., htdocs for XAMPP)
-
-5. **Access the application**
-   - Open your web browser and navigate to `http://localhost/Bumi-Library/`
-   - Login with the default admin account:
-     - Username: admin
-     - Password: admin123
-
-## 👥 User Roles
-
-1. **Administrator**
-   - Manage users (add, edit, delete)
-   - Manage books (add, edit, delete)
-   - View all books in the library
-
-2. **User**
-   - View available books
-   - Borrow books (maximum 3 at a time)
-   - Return borrowed books
-   - Track borrowing history
-
-## 📁 Project Structure
-
-```
-bumi-library/
-├── assets/               # Static assets
-│   ├── book_images/      # Book cover images
-│   ├── bootstrap.css/    # Bootstrap CSS files
-│   └── bootstrap.js/     # Bootstrap JS files
-├── config/               # Configuration files
-│   └── koneksi.php       # Database connection
-├── pages/                # Application pages
-│   ├── buku/             # Book management pages
-│   │   ├── edit_buku.php
-│   │   ├── hapus_buku.php
-│   │   ├── list_buku.php
-│   │   └── tambah_buku.php
-│   ├── peminjaman/       # Borrowing management pages
-│   │   ├── daftar_pinjaman.php
-│   │   ├── kembalikan_buku.php
-│   │   ├── pinjam_buku.php
-│   │   └── proses_pinjam.php
-│   └── user/             # User management pages
-│       ├── edit_user.php
-│       ├── hapus_user.php
-│       ├── list_user.php
-│       └── tambah_user.php
-├── bumi-library.sql      # Database schema
-├── dashboard.php         # User dashboard
-├── index.php             # Entry point
-├── login.php             # Login page
-├── logout.php            # Logout functionality
-└── README.md             # This documentation file
-```
-
-## 📸 Screenshots
-
-(Insert screenshots here)
-
-## ✨ Special Features
-
-### Interactive Login Page
-- Dynamic background that changes based on time of day (morning, day, evening, night)
-- Animated book character with eye tracking that follows cursor movement
-- Responsive design for all devices
-
-### Book Management
-- Upload and display book cover images
-- Track book availability with stock management
-- Detailed book information including title, author, publisher, year, and genre
-
-### Borrowing System
-- Automatic due date calculation (7 days from borrowing)
-- Visual indicators for due dates and overdue books
-- Prevents borrowing books that are out of stock
-
-## 🔒 Security Features
-
-- Password hashing for user accounts
-- Role-based access control
-- Input sanitization to prevent SQL injection
-- Session management and authentication
-
-## 👨‍💻 Development
-
-Want to contribute? Great! 
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- Bootstrap team for the amazing UI framework
-- Icons provided by Bootstrap Icons
-- Animation effects by Animate.css
+</div>
 
 ---
 
-Made with ❤️ for the love of books and learning
+## 📚 Overview
+
+Bumi Library is a comprehensive library management system featuring book cataloging, user management, and a borrowing system. With its elegant UI and powerful features, it helps libraries efficiently manage their collections and member activities.
+
+<div align="center">
+<table>
+  <tr>
+    <td align="center" width="33%"><b>📖 Book Management</b><br>Catalog, update, and track your entire collection</td>
+    <td align="center" width="33%"><b>👥 User Management</b><br>Manage user accounts with different access levels</td>
+    <td align="center" width="33%"><b>🔄 Borrowing System</b><br>Handle loans with automated due dates</td>
+  </tr>
+</table>
+</div>
+
+---
+
+## 🌟 Key Features
+
+### 📘 For Administrators
+* **User Management** - Create and manage user accounts (admin/regular users)
+* **Book Cataloging** - Add books with detailed info (title, author, publisher, etc.)
+* **Book Cover Images** - Upload and manage visual representations
+* **Admin Dashboard** - Get a complete overview of library activities
+
+### 📗 For Regular Users
+* **Browse Collection** - Search through available books
+* **Borrow Books** - Check out books (up to 3 at once)
+* **Track Loans** - Monitor borrowed books and due dates
+* **Return System** - Easy process for returning books
+
+### 📙 System Features
+* **Responsive Design** - Works perfectly on all devices
+* **Modern UI** - Clean Bootstrap 5 interface with animations
+* **Interactive Login** - Dynamic backgrounds based on time of day
+* **Smart Search** - Find books quickly and efficiently
+* **Pagination** - Navigate large collections with ease
+
+---
+
+<div align="center">
+
+## 💻 Technologies Used
+
+| Backend | Frontend | Libraries |
+|:-------:|:--------:|:---------:|
+| PHP 7+ | Bootstrap 5 | Bootstrap Icons |
+| MySQL | HTML5/CSS3 | Animate.css |
+|  | JavaScript | Custom UI Elements |
+
+</div>
+
+---
+
+## 🚀 Installation Guide
+
+### Prerequisites
+* PHP 7.0 or higher
+* MySQL 5.6 or higher
+* Web server (Apache/Nginx)
+* Web browser
+
+### Setup Process
+
+<details>
+<summary><b>Step 1:</b> Clone the repository</summary>
+
+```bash
+git clone https://github.com/yourusername/Bumi-Library.git
+```
+</details>
+
+<details>
+<summary><b>Step 2:</b> Set up database</summary>
+
+* Create a MySQL database named `bumi_library`
+* Import the `bumi-library.sql` file
+</details>
+
+<details>
+<summary><b>Step 3:</b> Configure connection</summary>
+
+Edit `config/koneksi.php` with your database credentials:
+```php
+$host = 'localhost';  // Database host
+$db_user = 'root';    // Database username
+$db_pass = '';        // Database password
+$db_name = 'bumi_library'; // Database name
+```
+</details>
+
+<details>
+<summary><b>Step 4:</b> Deploy and access</summary>
+
+* Move the project to your web server's document root (e.g., htdocs for XAMPP)
+* Navigate to `http://localhost/Bumi-Library/`
+* Default admin login:
+  * Username: admin
+  * Password: admin123
+</details>
+
+---
+
+## 👥 User Roles & Capabilities
+
+<div align="center">
+<table>
+  <tr>
+    <th>Administrator</th>
+    <th>Regular User</th>
+  </tr>
+  <tr>
+    <td>
+      ✅ Manage user accounts<br>
+      ✅ Add/edit/delete books<br>
+      ✅ View all library data<br>
+      ✅ Oversee the entire system
+    </td>
+    <td>
+      ✅ View available books<br>
+      ✅ Borrow books (max 3)<br>
+      ✅ Return borrowed items<br>
+      ✅ Track personal borrowing history
+    </td>
+  </tr>
+</table>
+</div>
+
+---
+
+## 📋 Project Structure
+
+<details>
+<summary>Click to expand project structure</summary>
+
+```
+bumi-library/
+├── assets/               # Static resources
+│   ├── book_images/      # Book cover images
+│   ├── bootstrap.css/    # CSS files
+│   └── bootstrap.js/     # JS files
+├── config/               # Configuration
+│   └── koneksi.php       # Database connection
+├── pages/                # Application pages
+│   ├── buku/             # Book management
+│   ├── peminjaman/       # Borrowing system
+│   └── user/             # User management
+├── dashboard.php         # Main dashboard
+├── login.php             # Authentication
+└── [other files]         # Supporting files
+```
+</details>
+
+---
+
+## ✨ Special Features
+
+### Dynamic Login Experience
+* **Time-Based Backgrounds** - Morning, day, evening, and night themes
+* **Interactive Book Character** - Eyes follow your cursor movement
+* **Fully Responsive** - Perfect on all screen sizes
+
+### Advanced Book Management
+* **Cover Image System** - Visual catalog of your books
+* **Stock Management** - Automatic inventory tracking
+* **Detailed Information** - Complete book metadata
+
+### Smart Borrowing System
+* **Automatic Due Dates** - 7-day loan period calculation
+* **Visual Status Indicators** - Easy to track due/overdue books
+* **Stock Protection** - Prevents borrowing unavailable books
+
+---
+
+## 🔒 Security
+
+* Password hashing with PHP's secure algorithms
+* Role-based access control system
+* Input sanitization against SQL injection
+* Secure session management
+
+---
+
+## 👨‍💻 Contribute
+
+Want to make Bumi Library even better? Here's how:
+
+1. **Fork** the repository
+2. **Create** a feature branch
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Commit** your changes
+   ```bash
+   git commit -m 'Add an amazing feature'
+   ```
+4. **Push** to your branch
+5. Open a **Pull Request**
+
+---
+
+<div align="center">
+
+## 📄 License
+
+This project is available under the MIT License
+
+## 🙏 Acknowledgments
+
+Bootstrap team • Bootstrap Icons • Animate.css
+
+<p>Made with ❤️ for the love of books and learning</p>
+</div>
