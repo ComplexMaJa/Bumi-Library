@@ -79,7 +79,7 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Buku - Perpustakaan Muflih</title>
+    <title>Daftar Buku - Bumi Library <3</title>
     <link href="../../assets/bootstrap.css/css/theme.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -279,7 +279,7 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
                     <hr class="border-2 border-primary opacity-25">
                     <div class="d-flex justify-content-between align-items-center px-2">
                         <div class="text-muted small">
-                            <i class="bi bi-book me-1"></i> Perpustakaan Muflih
+                            <i class="bi bi-book me-1"></i> Bumi Library <3
                         </div>
                         <div class="text-muted small">
                             &copy; <?php echo date('Y'); ?> | Developed with inspiration

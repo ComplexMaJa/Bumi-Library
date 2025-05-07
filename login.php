@@ -102,7 +102,7 @@ if (isset($_GET['error'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Perpustakaan Muflih</title>
+    <title>Login - Bumi Library <3</title>
     <link href="assets/bootstrap.css/css/theme.css" rel="stylesheet">
     <style>
         /* Background and day-night elements */
@@ -490,7 +490,7 @@ if (isset($_GET['error'])) {
                                     <button class="btn btn-primary text-white py-2 rounded-pill fw-semibold" type="submit">LOGIN</button>
                                 </div>
 
-                                <p class="mt-4 mb-0 text-white-50 text-center small">&copy; Perpustakaan Muflih <?php echo date("Y"); ?></p>
+                                <p class="mt-4 mb-0 text-white-50 text-center small">&copy; Bumi Library <3 <?php echo date("Y"); ?></p>
                             </form>
                         </div>
                     </div>
@@ -582,19 +582,19 @@ if (isset($_GET['error'])) {
             function updateWelcomeText(phase) {
                 switch(phase) {
                     case 'morning':
-                        welcomeHeading.textContent = "Selamat Pagi! Welcome to Perpustakaan Muflih";
+                        welcomeHeading.textContent = "Selamat Pagi! Welcome to Bumi Library <3";
                         welcomeMessage.textContent = "Mulai hari Anda dengan membaca buku yang menginspirasi. Mari kelola perpustakaan dengan efisien.";
                         break;
                     case 'day':
-                        welcomeHeading.textContent = "Selamat Siang! Welcome to Perpustakaan Muflih";
+                        welcomeHeading.textContent = "Selamat Siang! Welcome to Bumi Library <3";
                         welcomeMessage.textContent = "Sistem informasi perpustakaan untuk pengelolaan buku dan peminjaman yang efisien dan mudah digunakan.";
                         break;
                     case 'evening':
-                        welcomeHeading.textContent = "Selamat Sore! Welcome to Perpustakaan Muflih";
+                        welcomeHeading.textContent = "Selamat Sore! Welcome to Bumi Library <3";
                         welcomeMessage.textContent = "Nikmati sore Anda dengan membaca buku favorit. Sistem perpustakaan yang selalu siap melayani.";
                         break;
                     case 'night':
-                        welcomeHeading.textContent = "Selamat Malam! Welcome to Perpustakaan Muflih";
+                        welcomeHeading.textContent = "Selamat Malam! Welcome to Bumi Library <3";
                         welcomeMessage.textContent = "Perpustakaan tetap ada untuk Anda di malam hari. Mari kelola dan pinjam buku dengan mudah.";
                         break;
                 }

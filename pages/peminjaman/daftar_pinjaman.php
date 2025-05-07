@@ -86,7 +86,7 @@ mysqli_close($koneksi);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buku Dipinjam - Perpustakaan Muflih</title>
+    <title>Buku Dipinjam - Bumi Library <3</title>
     <!-- Menggunakan Bootstrap lokal -->
     <link href="../../assets/bootstrap.css/css/theme.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -311,7 +311,7 @@ mysqli_close($koneksi);
                     <hr class="border-2 border-primary opacity-25">
                     <div class="d-flex justify-content-between align-items-center px-2">
                         <div class="text-muted small">
-                            <i class="bi bi-book me-1"></i> Perpustakaan Muflih
+                            <i class="bi bi-book me-1"></i> Bumi Library <3
                         </div>
                         <div class="text-muted small">
                             &copy; <?php echo date('Y'); ?> | Developed with inspiration

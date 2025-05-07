@@ -72,7 +72,7 @@ if ($role === 'user') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Perpustakaan Muflih</title>
+    <title>Dashboard - Bumi Library <3</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
@@ -167,7 +167,7 @@ if ($role === 'user') {
                     </div>
                 <?php endif; ?>
 
-                <p>Selamat datang di sistem informasi Perpustakaan Muflih.</p>
+                <p>Selamat datang di sistem informasi Bumi Library <3.</p>
                 <p>Gunakan menu di sebelah kiri untuk navigasi.</p>
 
                 <?php if ($role === 'admin'): ?>
