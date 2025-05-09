@@ -21,8 +21,8 @@ $offset = ($current_page - 1) * $limit;
 $filter = isset($_GET['filter']) ? trim($_GET['filter']) : 'all'; // 'active', 'returned', 'all'
 
 // Count total borrowed books for pagination
-$sql_count = "SELECT COUNT(*) as total FROM peminjaman p 
-              LEFT JOIN buku b ON p.buku_id = b.id 
+$sql_count = "SELECT COUNT(*) as total FROM peminjaman p
+              LEFT JOIN buku b ON p.buku_id = b.id
               WHERE p.user_id = ?";
 
 if ($filter === 'active') {
@@ -52,8 +52,8 @@ $offset = max(0, $offset);
 // Fetch borrowed books for the current page
 $sql = "SELECT p.*, b.judul, b.pengarang, b.genre,
         DATEDIFF(p.tanggal_kembali, CURDATE()) as days_remaining
-        FROM peminjaman p 
-        LEFT JOIN buku b ON p.buku_id = b.id 
+        FROM peminjaman p
+        LEFT JOIN buku b ON p.buku_id = b.id
         WHERE p.user_id = ?";
 
 if ($filter === 'active') {
@@ -100,7 +100,7 @@ mysqli_close($koneksi);
         <nav class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; min-height: 100vh;">
             <a href="../../dashboard.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <i class="bi bi-book-half me-2" style="font-size: 1.5rem;"></i>
-                <span class="fs-4">Perpus Muflih</span>
+                <span class="fs-4">Bumi Library <3</span>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
@@ -305,7 +305,7 @@ mysqli_close($koneksi);
                     </ul>
                 </nav>
                 <?php endif; ?>
-                
+
                 <!-- Scroll Boundary Footer -->
                 <div class="mt-5 mb-3 pt-4 animate__animated animate__fadeInUp">
                     <hr class="border-2 border-primary opacity-25">

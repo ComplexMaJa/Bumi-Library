@@ -4,9 +4,9 @@ check_login();
 
 $role = $_SESSION['role'];
 
-$limit = 10; 
+$limit = 10;
 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$current_page = max(1, $current_page); 
+$current_page = max(1, $current_page);
 $offset = ($current_page - 1) * $limit;
 
 $search = isset($_GET['search']) ? trim(mysqli_real_escape_string($koneksi, $_GET['search'])) : '';
@@ -38,7 +38,7 @@ if ($stmt_count = mysqli_prepare($koneksi, $sql_count)) {
 $total_pages = ceil($total_books / $limit);
 $current_page = min($current_page, $total_pages);
 $offset = ($current_page - 1) * $limit;
-$offset = max(0, $offset); 
+$offset = max(0, $offset);
 
 $sql = "SELECT * FROM buku";
 $params = [];
@@ -46,13 +46,13 @@ $types = '';
 if (!empty($search)) {
     $sql .= " WHERE judul LIKE ?";
     $search_param = "%{$search}%";
-    $params[] = &$search_param; 
+    $params[] = &$search_param;
     $types .= 's';
 }
 $sql .= " ORDER BY judul ASC LIMIT ? OFFSET ?";
-$params[] = &$limit; 
-$params[] = &$offset; 
-$types .= 'ii'; 
+$params[] = &$limit;
+$params[] = &$offset;
+$types .= 'ii';
 
 $books = [];
 if ($stmt = mysqli_prepare($koneksi, $sql)) {
@@ -101,7 +101,7 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
         <nav class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; min-height: 100vh;">
             <a href="../../dashboard.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <i class="bi bi-book-half me-2" style="font-size: 1.5rem;"></i>
-                <span class="fs-4">Perpus Muflih</span>
+                <span class="fs-4">Bumi Library <3</span>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
@@ -111,15 +111,18 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
                 <li>
                     <a class="nav-link active text-white" href="list_buku.php"><i class="bi bi-book-fill me-2"></i> Daftar Buku</a>
                 </li>
+                <li>
+                    <a class="nav-link text-white" href="../peminjaman/pinjam_buku.php"><i class="bi bi-journal-arrow-down me-2"></i> Pinjam Buku</a>
+                </li>
+                <li>
+                    <a class="nav-link text-white" href="../peminjaman/daftar_pinjaman.php"><i class="bi bi-journal-bookmark-fill me-2"></i> Buku Dipinjam</a>
+                </li>
                 <?php if ($role === 'admin'): ?>
                 <li>
                     <a class="nav-link text-white" href="tambah_buku.php"><i class="bi bi-plus-circle-fill me-2"></i> Tambah Buku</a>
                 </li>
                 <li>
                     <a class="nav-link text-white" href="../user/list_user.php"><i class="bi bi-people-fill me-2"></i> Manajemen User</a>
-                </li>
-                 <li>
-                    <a class="nav-link text-white" href="../user/tambah_user.php"><i class="bi bi-person-plus-fill me-2"></i> Tambah User</a>
                 </li>
                 <?php endif; ?>
             </ul>
@@ -187,8 +190,8 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
                         <tbody>
                             <?php if (count($books) > 0): ?>
                                 <?php foreach ($books as $index => $book): ?>
-                                <tr class="animate__animated animate__fadeIn book-row" style="animation-delay: <?php echo $index * 0.05; ?>s;" 
-                                    data-bs-toggle="modal" data-bs-target="#bookModal" 
+                                <tr class="animate__animated animate__fadeIn book-row" style="animation-delay: <?php echo $index * 0.05; ?>s;"
+                                    data-bs-toggle="modal" data-bs-target="#bookModal"
                                     data-id="<?php echo $book['id']; ?>"
                                     data-judul="<?php echo htmlspecialchars($book['judul']); ?>"
                                     data-pengarang="<?php echo htmlspecialchars($book['pengarang']); ?>"
@@ -273,7 +276,7 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
                     </ul>
                 </nav>
                 <?php endif; ?>
-                
+
                 <!-- Scroll Boundary Footer -->
                 <div class="mt-5 mb-3 pt-4 animate__animated animate__fadeInUp">
                     <hr class="border-2 border-primary opacity-25">
@@ -341,13 +344,13 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
         document.addEventListener('DOMContentLoaded', function() {
             // Add a default book cover image
             const defaultCover = '../../assets/book_images/contoh.png';
-            
+
             // Handle book modal data population
             const bookModal = document.getElementById('bookModal');
             if (bookModal) {
                 bookModal.addEventListener('show.bs.modal', function(event) {
                     const button = event.relatedTarget;
-                    
+
                     // Extract book data
                     const id = button.getAttribute('data-id');
                     const judul = button.getAttribute('data-judul');
@@ -357,7 +360,7 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
                     const genre = button.getAttribute('data-genre');
                     const stok = button.getAttribute('data-stok');
                     const gambar = button.getAttribute('data-gambar');
-                    
+
                     // Update modal content
                     document.getElementById('bookTitle').textContent = judul;
                     document.getElementById('bookAuthor').textContent = pengarang;
@@ -365,7 +368,7 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
                     document.getElementById('bookYear').textContent = tahun;
                     document.getElementById('bookGenre').textContent = genre;
                     document.getElementById('bookStock').textContent = stok + ' buku tersedia';
-                    
+
                     // Set image
                     const coverElement = document.getElementById('bookCover');
                     if (gambar && gambar.trim() !== '') {
@@ -373,7 +376,7 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
                     } else {
                         coverElement.src = defaultCover;
                     }
-                    
+
                     // Handle image error
                     coverElement.onerror = function() {
                         this.src = defaultCover;

@@ -85,9 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
              $error = "Oops! Terjadi kesalahan database saat persiapan statement. Silakan coba lagi nanti.";
         }
-        
-        if (!$password_verified) { 
-             mysqli_close($koneksi); 
+
+        if (!$password_verified) {
+             mysqli_close($koneksi);
         }
     }
 }
@@ -105,6 +105,11 @@ if (isset($_GET['error'])) {
     <title>Login - Bumi Library <3</title>
     <link href="assets/bootstrap.css/css/theme.css" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden; /* Prevent accidental horizontal scroll */
+        }
+
         /* Background and day-night elements */
         .background-layer {
             position: fixed;
@@ -142,7 +147,7 @@ if (isset($_GET['error'])) {
             z-index: 1;
             transition: all 4s ease, box-shadow 4s ease, background 4s ease, transform 4s ease;
         }
-        
+
         .morning .sun {
             top: 5%;
             left: 10%;
@@ -150,7 +155,7 @@ if (isset($_GET['error'])) {
             box-shadow: 0 0 40px rgba(255, 140, 0, 0.7);
             transform: scale(0.9);
         }
-        
+
         .day .sun {
             top: 10%;
             left: 50%;
@@ -158,7 +163,7 @@ if (isset($_GET['error'])) {
             background: radial-gradient(circle, #FFD700, #FFA500);
             box-shadow: 0 0 50px rgba(255, 223, 0, 0.8);
         }
-        
+
         .evening .sun {
             top: 15%;
             left: 80%;
@@ -195,13 +200,13 @@ if (isset($_GET['error'])) {
             opacity: 0; /* Initially invisible */
             z-index: 0;
         }
-        
+
         /* Only show stars at night with a nice fade-in effect */
         .night .star {
             opacity: 0; /* Start with opacity 0 even in night mode */
             animation: twinkle 3s infinite, fadeInStar 3s forwards; /* Add fade in animation */
         }
-        
+
         @keyframes fadeInStar {
             0% { opacity: 0; }
             100% { opacity: 1; }
@@ -251,7 +256,7 @@ if (isset($_GET['error'])) {
             width: 70%; height: 100%;
             top: -20%; right: 5%;
         }
-        
+
         @keyframes moveCloud {
             from { transform: translateX(0); }
             to { transform: translateX(calc(100vw + 300px)); }
@@ -273,13 +278,13 @@ if (isset($_GET['error'])) {
         .book-body {
             width: 100%;
             height: 100%;
-            background-color: #a0522d;
-            border: 3px solid #5c300a;
-            border-radius: 5px 10px 10px 5px;
+            background-color: #a0522d; /* Brown color for the book */
+            border: 3px solid #5c300a; /* Darker brown border */
+            border-radius: 5px 10px 10px 5px; /* Rounded edges for book shape */
             position: relative;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); /* Softer shadow */
             transform-style: preserve-3d;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
         }
 
         .book-cover-line {
@@ -291,7 +296,7 @@ if (isset($_GET['error'])) {
             background-color: #5c300a;
             border-radius: 5px 0 0 5px;
         }
-        
+
         .book-title {
             position: absolute;
             top: 20px;
@@ -302,7 +307,7 @@ if (isset($_GET['error'])) {
             border: 1px solid #5c300a;
             border-radius: 3px;
         }
-        
+
         .book-title-2 {
             position: absolute;
             top: 50px;
@@ -328,25 +333,25 @@ if (isset($_GET['error'])) {
         .eye {
             width: 25px;
             height: 30px;
-            background-color: white;
+            background-color: #f8f8f8; /* Slightly off-white */
             border-radius: 50%;
-            border: 2px solid #5c300a;
+            border: 1px solid #7a4017; /* Thinner, slightly lighter border */
             position: relative;
             overflow: hidden;
             transition: height 0.1s ease-in-out, transform 0.1s ease-in-out;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1); /* Softer inner shadow */
         }
 
         .pupil {
-            width: 12px;
-            height: 12px;
-            background-color: #333;
+            width: 14px; /* Slightly larger */
+            height: 14px; /* Slightly larger */
+            background-color: #2c2c2c; /* Dark grey pupil */
             border-radius: 50%;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            transition: transform 0.1s linear;
+            transition: transform 0.08s linear; /* Faster pupil movement */
         }
 
         .eye.blink {
@@ -357,38 +362,52 @@ if (isset($_GET['error'])) {
         /* Welcome text styling for different time phases */
         .morning .welcome-text h1 {
             color: #8B4513; /* Brown color for morning text */
-            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.6);
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7); /* Softer shadow */
         }
-        
+
         .morning .welcome-text p {
-            color: #5D4037; /* Darker brown for morning sub-text */
+            color: #A0522D; /* Lighter Brown for morning sub-text */
         }
-        
+
         .day .welcome-text h1 {
             color: #FFFFFF; /* White for day text */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Softer shadow */
         }
-        
+
         .day .welcome-text p {
-            color: #F0F0F0; /* Light white for day sub-text */
+            color: #F5F5F5; /* Light off-white for day sub-text */
         }
-        
+
         .evening .welcome-text h1 {
-            color: #FFF3E0; /* Light orange for evening text */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            color: #FF8C00; /* Vibrant Orange for evening text */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* Softer shadow */
         }
-        
+
         .evening .welcome-text p {
-            color: #FFE0B2; /* Lighter orange for evening sub-text */
+            color: #FFA500; /* Lighter Orange for evening sub-text */
         }
-        
+
         .night .welcome-text h1 {
             color: #E0F7FA; /* Light blue for night text */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Adjusted for night contrast */
         }
-        
+
         .night .welcome-text p {
             color: #B2EBF2; /* Lighter blue for night sub-text */
+        }
+
+        .btn-primary {
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-primary:hover {
+            /* Assuming theme.css handles primary hover color or use filter: brightness(90%); */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .card { /* Login form card */
+            border: 1px solid #dee2e6; /* Standard Bootstrap border */
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05); /* Subtle, clean shadow */
         }
     </style>
 </head>
@@ -442,7 +461,7 @@ if (isset($_GET['error'])) {
 
             <div class="col-md-6 d-flex align-items-center justify-content-center p-4 p-md-5">
                 <div class="w-75">
-                    <div class="card shadow-sm rounded-3 border-0">
+                    <div class="card shadow-sm rounded-3">
                         <div class="card-body p-4 p-md-5">
                             <div class="text-center mb-4">
                                 <img class="mb-3" src="assets/logosmk.png" alt="Logo SMK" width="80" height="auto">
@@ -507,78 +526,52 @@ if (isset($_GET['error'])) {
             const moon = document.getElementById('moon');
             const stars = document.querySelectorAll('.star');
             const clouds = document.querySelectorAll('.cloud');
-            
-            // Welcome text elements
+
             const welcomeHeading = document.getElementById('welcomeHeading');
             const welcomeMessage = document.getElementById('welcomeMessage');
-            
-            // Time cycle phases
+
             const timePhases = ['morning', 'day', 'evening', 'night'];
             let currentPhase = 0;
-            
-            // Set initial state
+
             updateTimePhase(timePhases[currentPhase]);
-            
-            // Time phase update function
+
             function updateTimePhase(phase) {
-                // Remove all possible phase classes first
                 backgroundLayer.classList.remove('morning', 'day', 'evening', 'night');
-                
-                // Add the current phase class
                 backgroundLayer.classList.add(phase);
-                
-                // Update welcome text based on time phase
                 updateWelcomeText(phase);
-                
-                // Update elements based on current phase
+
                 switch(phase) {
                     case 'morning':
-                        // Morning sunrise
                         sun.style.display = 'block';
                         moon.style.opacity = '0';
-                        
-                        // Position and style sun for morning
                         sun.style.opacity = '1';
                         updateCloudAppearance('morning');
                         hideStars();
                         break;
-                        
                     case 'day':
-                        // Full daylight
                         sun.style.display = 'block';
                         moon.style.opacity = '0';
-                        
-                        // Position and style sun for day
                         sun.style.opacity = '1';
                         updateCloudAppearance('day');
                         hideStars();
                         break;
-                        
                     case 'evening':
-                        // Sunset
                         sun.style.display = 'block';
                         moon.style.opacity = '0';
-                        
-                        // Position and style sun for evening
                         sun.style.opacity = '1';
                         updateCloudAppearance('evening');
                         hideStars();
                         break;
-                        
                     case 'night':
-                        // Night time
                         sun.style.opacity = '0';
                         moon.style.opacity = '1';
                         moon.style.display = 'block';
-                        
-                        // Show stars at night with delay
                         setTimeout(showStars, 800);
                         updateCloudAppearance('night');
                         break;
                 }
             }
-            
-            // Update welcome text based on time phase
+
             function updateWelcomeText(phase) {
                 switch(phase) {
                     case 'morning':
@@ -596,52 +589,41 @@ if (isset($_GET['error'])) {
                     case 'night':
                         welcomeHeading.textContent = "Selamat Malam! Welcome to Bumi Library <3";
                         welcomeMessage.textContent = "Perpustakaan tetap ada untuk Anda di malam hari. Mari kelola dan pinjam buku dengan mudah.";
-                        break;
                 }
             }
-            
-            // Helper functions
+
             function showStars() {
                 stars.forEach((star, index) => {
-                    // Add random delays for a more natural twinkling effect
                     const randomDelay = 100 + Math.random() * 1000 + index * 50;
                     setTimeout(() => {
-                        const initialOpacity = 0.5 + Math.random() * 0.5;
-                        star.style.opacity = initialOpacity.toString();
+                        star.style.opacity = '0.8'; // Set a default opacity
                     }, randomDelay);
                 });
             }
-            
+
             function hideStars() {
                 stars.forEach(star => {
                     star.style.opacity = '0';
                 });
             }
-            
+
             function updateCloudAppearance(phase) {
                 clouds.forEach(cloud => {
                     cloud.classList.remove('morning-cloud', 'day-cloud', 'evening-cloud', 'night-cloud');
-                    if (phase !== 'day') {
-                        cloud.classList.add(`${phase}-cloud`);
-                    }
                 });
             }
-            
-            // Cycle through time phases
+
             function cycleTimePhase() {
                 currentPhase = (currentPhase + 1) % timePhases.length;
                 updateTimePhase(timePhases[currentPhase]);
             }
-            
-            // Change time phase every 6 seconds (reduced from 12 seconds)
-            setInterval(cycleTimePhase, 6000);
-            
-            // Book character eye movement logic
+
+            setInterval(cycleTimePhase, 6000); // Cycle every 6 seconds
+
             const leftPupil = document.getElementById('leftPupil');
             const rightPupil = document.getElementById('rightPupil');
             const bookCharacter = document.getElementById('bookCharacter');
-            const eyes = document.querySelectorAll('.eye');
-
+            const eyes = Array.from(document.querySelectorAll('.eye')); // Ensure it's an array for forEach
             const leftPanel = document.querySelector('.col-md-6.text-white');
             let panelRect = leftPanel.getBoundingClientRect();
 
@@ -650,96 +632,73 @@ if (isset($_GET['error'])) {
             });
 
             leftPanel.addEventListener('mousemove', function(event) {
+                if (!leftPupil || !rightPupil || !bookCharacter || !leftPanel) return;
+
                 const mouseX = event.clientX - panelRect.left;
                 const mouseY = event.clientY - panelRect.top;
 
-                const normX = (mouseX / panelRect.width) * 2 - 1;
-                const normY = (mouseY / panelRect.height) * 2 - 1;
+                // Pupil movement
+                [leftPupil, rightPupil].forEach(pupil => {
+                    const eyeRect = pupil.parentElement.getBoundingClientRect();
+                    const eyeCenterX = eyeRect.left - panelRect.left + eyeRect.width / 2;
+                    const eyeCenterY = eyeRect.top - panelRect.top + eyeRect.height / 2;
 
-                const maxPupilMove = 5;
-                const pupilX = normX * maxPupilMove;
-                const pupilY = normY * maxPupilMove;
+                    const deltaX = mouseX - eyeCenterX;
+                    const deltaY = mouseY - eyeCenterY;
+                    const angle = Math.atan2(deltaY, deltaX);
 
-                leftPupil.style.transform = `translate(calc(-50% + ${pupilX}px), calc(-50% + ${pupilY}px))`;
-                rightPupil.style.transform = `translate(calc(-50% + ${pupilX}px), calc(-50% + ${pupilY}px))`;
+                    const maxPupilMove = pupil.parentElement.offsetWidth / 4; // Max distance pupil can move
+                    const distance = Math.min(maxPupilMove, Math.hypot(deltaX, deltaY) * 0.2);
 
-                const maxTilt = 8;
-                const bookTilt = normX * maxTilt * -1;
+                    const moveX = Math.cos(angle) * distance;
+                    const moveY = Math.sin(angle) * distance;
 
-                const maxVerticalMove = 5;
-                const bookMoveY = normY * maxVerticalMove * -0.5;
+                    pupil.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+                });
 
-                bookCharacter.style.transform = `translateX(-50%) translateY(${bookMoveY}px) rotateY(${bookTilt}deg)`;
+                // Book character tilt and slight movement
+                const maxTilt = 6; // Max degrees to tilt
+                const bookTiltX = (mouseY / panelRect.height - 0.5) * maxTilt * -1.2;
+                const bookTiltY = (mouseX / panelRect.width - 0.5) * maxTilt * 1.2;
+
+                const maxMove = 4; // Max pixels to move
+                const bookMoveX = (mouseX / panelRect.width - 0.5) * maxMove;
+                const bookMoveYsync = (mouseY / panelRect.height - 0.5) * maxMove;
+
+                // Apply if not focused on input
+                if (!document.activeElement || (document.activeElement.id !== 'username' && document.activeElement.id !== 'password')) {
+                    bookCharacter.style.transform = `translateX(calc(-50% + ${bookMoveX}px)) translateY(${bookMoveYsync}px) rotateX(${bookTiltX}deg) rotateY(${bookTiltY}deg) scale(1)`;
+                }
             });
 
-            leftPanel.addEventListener('mouseleave', () => {
-                 leftPupil.style.transform = 'translate(-50%, -50%)';
-                 rightPupil.style.transform = 'translate(-50%, -50%)';
-                 bookCharacter.style.transform = 'translateX(-50%) translateY(0px) rotateY(0deg)';
-            });
-
-            function blinkEyes() {
-                const blinkInterval = Math.random() * 5000 + 2000;
-
-                setTimeout(() => {
+            function blink() {
+                if (eyes.length > 0) {
                     eyes.forEach(eye => eye.classList.add('blink'));
-
                     setTimeout(() => {
                         eyes.forEach(eye => eye.classList.remove('blink'));
-                        blinkEyes();
-                    }, 150);
-                }, blinkInterval);
-            }
-
-            setTimeout(blinkEyes, 1000);
-
-            bookCharacter.style.animation = 'breathing 5s ease-in-out infinite';
-
-            if (document.styleSheets.length > 0) {
-                const styleSheet = document.styleSheets[0];
-                try {
-                    styleSheet.insertRule(`
-                        @keyframes breathing {
-                            0%, 100% { transform: translateX(-50%) scale(1); }
-                            50% { transform: translateX(-50%) scale(1.03); }
-                        }
-                    `, styleSheet.cssRules.length);
-                } catch (e) {
-                    console.error("Could not insert CSS rule for breathing animation:", e);
+                    }, 150); // Blink duration
                 }
-            } else {
-                 console.warn("No stylesheets found to insert breathing animation rule.");
             }
+            setInterval(blink, 3000 + Math.random() * 3000); // Blink every 3-6 seconds
 
-             const inputs = document.querySelectorAll('#username, #password');
-             inputs.forEach(input => {
-                 input.addEventListener('focus', () => {
-                     eyes.forEach(eye => eye.style.transform = 'scale(1.1)');
-                 });
-                 input.addEventListener('blur', () => {
-                     eyes.forEach(eye => eye.style.transform = 'scale(1)');
-                 });
-             });
-        });
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
 
-        // Password toggle visibility
-        const togglePassword = document.querySelector('#togglePassword');
-        const password = document.querySelector('#password');
-        const eyeIcon = togglePassword.querySelector('svg');
-
-        togglePassword.addEventListener('click', function (e) {
-            // toggle the type attribute
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-            
-            // toggle the eye / eye slash icon
-            if (type === 'password') {
-                eyeIcon.innerHTML = `<path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>`; // Eye icon SVG path
-                eyeIcon.setAttribute('viewBox', '0 0 16 16');
-            } else {
-                eyeIcon.innerHTML = `<path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.94 5.94 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>`; // Eye slash icon SVG path
-                eyeIcon.setAttribute('viewBox', '0 0 16 16');
-            }
+            [usernameInput, passwordInput].forEach(input => {
+                if (input) {
+                    input.addEventListener('focus', () => {
+                        if (bookCharacter) {
+                            bookCharacter.style.transform = 'translateX(-50%) translateY(-5px) scale(1.05) rotateX(5deg)';
+                        }
+                    });
+                    input.addEventListener('blur', () => {
+                        if (bookCharacter) {
+                            // Reset to a neutral position, mousemove will take over for tilt/movement
+                            bookCharacter.style.transform = 'translateX(-50%) translateY(0px) scale(1) rotateX(0deg) rotateY(0deg)';
+                        }
+                    });
+                }
+            });
         });
     </script>
 </body>

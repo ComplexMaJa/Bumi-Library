@@ -16,7 +16,7 @@
 
 ## 📚 Overview
 
-Bumi Library is a comprehensive library management system featuring book cataloging, user management, and a borrowing system. With its elegant UI and powerful features, it helps libraries efficiently manage their collections and member activities.
+Bumi Library is a comprehensive library management system featuring book cataloging, user management, and a borrowing system. With its **modern, interactive UI** and powerful features, it helps libraries efficiently manage their collections and member activities.
 
 <div align="center">
 <table>
@@ -47,7 +47,8 @@ Bumi Library is a comprehensive library management system featuring book catalog
 ### 📙 System Features
 * **Responsive Design** - Works perfectly on all devices
 * **Modern UI** - Clean Bootstrap 5 interface with animations
-* **Interactive Login** - Dynamic backgrounds based on time of day
+* **Engaging Login Experience** - Dynamic, time-based backgrounds and an interactive book character that reacts to user input.
+* **Enhanced User Navigation** - Intuitive sidebar with quick access to core features like borrowing and viewing loaned books for all users.
 * **Smart Search** - Find books quickly and efficiently
 * **Pagination** - Navigate large collections with ease
 
@@ -172,7 +173,7 @@ bumi-library/
 
 ### Dynamic Login Experience
 * **Time-Based Backgrounds** - Morning, day, evening, and night themes
-* **Interactive Book Character** - Eyes follow your cursor movement
+* **Interactive Book Character** - Brings the login page to life! The character's eyes follow your cursor, it blinks, tilts, and reacts when you focus on input fields.
 * **Fully Responsive** - Perfect on all screen sizes
 
 ### Advanced Book Management

@@ -70,104 +70,133 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah User - Bumi Library <3</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/bootstrap.css/css/theme.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        body {
-            display: flex;
-            min-height: 100vh;
-            flex-direction: row;
-        }
         .sidebar {
-            width: 250px;
-            background-color: #343a40;
-            color: #fff;
+            width: 280px;
             min-height: 100vh;
-            padding: 15px;
-        }
-        .sidebar a {
-            color: #adb5bd;
-            text-decoration: none;
-            display: block;
-            padding: 10px 15px;
-        }
-        .sidebar a:hover, .sidebar a.active {
-            color: #fff;
-            background-color: #495057;
         }
         .content {
-            flex: 1;
-            padding: 20px;
+            flex-grow: 1;
+            padding: 1.5rem;
         }
     </style>
 </head>
 <body>
-    <nav class="sidebar">
-        <h4 class="text-center mb-4">Perpus Muflih</h4>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="../../dashboard.php"><i class="bi bi-house-door-fill me-2"></i> Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../buku/list_buku.php"><i class="bi bi-book-fill me-2"></i> Daftar Buku</a>
-            </li>
-            <?php if ($role === 'admin'): ?>
-            <li class="nav-item">
-                <a class="nav-link" href="../buku/tambah_buku.php"><i class="bi bi-plus-circle-fill me-2"></i> Tambah Buku</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="list_user.php"><i class="bi bi-people-fill me-2"></i> Manajemen User</a>
-            </li>
-             <li class="nav-item">
-                <a class="nav-link active" href="tambah_user.php"><i class="bi bi-person-plus-fill me-2"></i> Tambah User</a>
-            </li>
-            <?php endif; ?>
-             <li class="nav-item mt-auto">
-                <a class="nav-link" href="../../logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
-            </li>
-        </ul>
-    </nav>
-
-    <div class="content">
-        <div class="container-fluid">
-            <h2>Tambah User Baru</h2>
+    <div class="d-flex">
+        <nav class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
+            <a href="../../dashboard.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <i class="bi bi-book-half me-2" style="font-size: 1.5rem;"></i>
+                <span class="fs-4">Bumi Library <3</span>
+            </a>
             <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="../../dashboard.php"><i class="bi bi-house-door-fill me-2"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a class="nav-link text-white" href="../buku/list_buku.php"><i class="bi bi-book-fill me-2"></i> Daftar Buku</a>
+                </li>
+                <?php if ($role === 'admin'): ?>
+                <li>
+                    <a class="nav-link text-white" href="../buku/tambah_buku.php"><i class="bi bi-plus-circle-fill me-2"></i> Tambah Buku</a>
+                </li>
+                <li>
+                    <a class="nav-link text-white" href="list_user.php"><i class="bi bi-people-fill me-2"></i> Manajemen User</a>
+                </li>
+                 <li>
+                    <a class="nav-link active text-white" href="tambah_user.php"><i class="bi bi-person-plus-fill me-2"></i> Tambah User</a>
+                </li>
+                <?php endif; ?>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle me-2"></i>
+                    <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <li><a class="dropdown-item" href="../../logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </nav>
 
-            <?php if (!empty($errors)): ?>
-                <div class="alert alert-danger" role="alert">
-                    <strong>Error:</strong>
-                    <ul>
-                        <?php foreach ($errors as $error): ?>
-                            <li><?php echo $error; ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
+        <div class="content animate__animated animate__fadeIn">
+            <div class="container-fluid">
+                <h2 class="animate__animated animate__fadeInLeft">Tambah User Baru</h2>
+                <hr class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
 
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" value="<?php echo sanitize($username); ?>" required>
+                <?php if (!empty($errors)): ?>
+                    <div class="alert alert-danger alert-dismissible fade show animate__animated animate__fadeInDown" role="alert">
+                        <strong>Error:</strong>
+                        <ul class="mb-0">
+                            <?php foreach ($errors as $error): ?>
+                                <li><?php echo htmlspecialchars($error); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php endif; ?>
+
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="animate__animated animate__fadeInUp card shadow-sm p-4" style="animation-delay: 0.2s;">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control <?php if(in_array("Username wajib diisi.", $errors) || in_array("Username hanya boleh berisi huruf, angka, dan underscore.", $errors) || in_array("Username sudah digunakan.", $errors)) echo 'is-invalid'; ?>" id="username" name="username" value="<?php echo htmlspecialchars($username); ?>" required>
+                         <?php if(in_array("Username wajib diisi.", $errors)): ?>
+                            <div class="invalid-feedback">Username wajib diisi.</div>
+                        <?php elseif(in_array("Username hanya boleh berisi huruf, angka, dan underscore.", $errors)): ?>
+                            <div class="invalid-feedback">Username hanya boleh berisi huruf, angka, dan underscore.</div>
+                        <?php elseif(in_array("Username sudah digunakan.", $errors)): ?>
+                            <div class="invalid-feedback">Username sudah digunakan.</div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control <?php if(in_array("Password wajib diisi.", $errors) || in_array("Password minimal harus 6 karakter.", $errors)) echo 'is-invalid'; ?>" id="password" name="password" required>
+                        <div class="form-text">Minimal 6 karakter.</div>
+                        <?php if(in_array("Password wajib diisi.", $errors)): ?>
+                            <div class="invalid-feedback">Password wajib diisi.</div>
+                        <?php elseif(in_array("Password minimal harus 6 karakter.", $errors)): ?>
+                            <div class="invalid-feedback">Password minimal harus 6 karakter.</div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select <?php if(in_array("Role wajib dipilih.", $errors) || in_array("Role tidak valid.", $errors)) echo 'is-invalid'; ?>" id="role" name="role" required>
+                            <option value="" <?php echo ($user_role == '') ? 'selected' : ''; ?>>-- Pilih Role --</option>
+                            <option value="admin" <?php echo ($user_role == 'admin') ? 'selected' : ''; ?>>Admin</option>
+                            <option value="user" <?php echo ($user_role == 'user') ? 'selected' : ''; ?>>User</option>
+                        </select>
+                        <?php if(in_array("Role wajib dipilih.", $errors)): ?>
+                            <div class="invalid-feedback">Role wajib dipilih.</div>
+                        <?php elseif(in_array("Role tidak valid.", $errors)): ?>
+                            <div class="invalid-feedback">Role tidak valid.</div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary me-2"><i class="bi bi-plus-lg me-2"></i>Tambah User</button>
+                        <a href="list_user.php" class="btn btn-secondary"><i class="bi bi-x-circle me-2"></i>Batal</a>
+                    </div>
+                </form>
+
+                 <!-- Scroll Boundary Footer -->
+                <div class="mt-5 mb-3 pt-4 animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+                    <hr class="border-2 border-dark opacity-25">
+                    <div class="d-flex justify-content-between align-items-center px-2">
+                        <div class="text-muted small">
+                            <i class="bi bi-book-half me-1"></i> Bumi Library <3
+                        </div>
+                        <div class="text-muted small">
+                            &copy; <?php echo date('Y'); ?> | Crafted with <i class="bi bi-heart-fill text-danger"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                    <div class="form-text">Minimal 6 karakter.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="role" class="form-label">Role</label>
-                    <select class="form-select" id="role" name="role" required>
-                        <option value="" <?php echo ($user_role == '') ? 'selected' : ''; ?>>-- Pilih Role --</option>
-                        <option value="admin" <?php echo ($user_role == 'admin') ? 'selected' : ''; ?>>Admin</option>
-                        <option value="user" <?php echo ($user_role == 'user') ? 'selected' : ''; ?>>User</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Tambah User</button>
-                <a href="list_user.php" class="btn btn-secondary">Batal</a>
-            </form>
+            </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/bootstrap.js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
