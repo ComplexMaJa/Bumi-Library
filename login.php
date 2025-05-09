@@ -110,6 +110,121 @@ if (isset($_GET['error'])) {
             overflow-x: hidden; /* Prevent accidental horizontal scroll */
         }
 
+        /* Loading Intro Styles */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a2e; /* Dark blue, similar to osu! */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999; /* Ensure it's on top */
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none; /* Allow interaction with page below after hidden */
+        }
+
+        .loader-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-logo-intro {
+            width: 100px; /* Adjust as needed */
+            height: 100px; /* Adjust as needed */
+            animation: pulseLogo 2s infinite ease-in-out;
+            z-index: 10; /* Above circles */
+        }
+
+        .intro-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            animation-timing-function: ease-out;
+            animation-iteration-count: 1; /* Play once then rely on JS to hide */
+            animation-fill-mode: forwards; /* Keep final state */
+        }
+
+        .intro-circle.circle1 {
+            width: 120px;
+            height: 120px;
+            animation-name: expandCircle;
+            animation-duration: 1.5s;
+            animation-delay: 0s;
+        }
+
+        .intro-circle.circle2 {
+            width: 120px;
+            height: 120px;
+            animation-name: expandCircle;
+            animation-duration: 1.5s;
+            animation-delay: 0.3s; /* Stagger the animations */
+        }
+
+        .intro-circle.circle3 {
+            width: 120px;
+            height: 120px;
+            animation-name: expandCircle;
+            animation-duration: 1.5s;
+            animation-delay: 0.6s; /* Stagger the animations */
+        }
+
+
+        @keyframes pulseLogo {
+            0% {
+                transform: scale(0.95);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(0.95);
+            }
+        }
+
+        @keyframes expandCircle {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.8;
+            }
+            80% {
+                transform: scale(2.5); /* Expand beyond logo */
+                opacity: 0.2;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* End Loading Intro Styles */
+
+        /* Real-time Clock Styles */
+        #realtime-clock {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            color: #ffffff; /* White text */
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1em;
+            z-index: 10000; /* Ensure it's above other elements but below loading overlay if active */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        /* End Real-time Clock Styles */
+
         /* Background and day-night elements */
         .background-layer {
             position: fixed;
@@ -412,6 +527,14 @@ if (isset($_GET['error'])) {
     </style>
 </head>
 <body>
+    <div id="loading-overlay">
+        <div class="loader-container">
+            <img src="assets/logosmk.png" alt="Logo" class="loading-logo-intro">
+            <div class="intro-circle circle1"></div>
+            <div class="intro-circle circle2"></div>
+            <div class="intro-circle circle3"></div>
+        </div>
+    </div>
     <div class="background-layer">
         <div class="sun" id="sun"></div>
         <div class="moon" id="moon"></div>
@@ -518,9 +641,23 @@ if (isset($_GET['error'])) {
         </div>
     </div>
 
+    <div id="realtime-clock">
+        <span id="clock-text"></span>
+        <span id="time-emoji" style="margin-left: 5px;"></span>
+    </div>
+
     <script src="assets/bootstrap.js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+
+            // Hide loading overlay after animation/delay
+            setTimeout(() => {
+                if (loadingOverlay) {
+                    loadingOverlay.classList.add('hidden');
+                }
+            }, 2500); // Adjust time as needed (e.g., 2.5 seconds)
+
             const backgroundLayer = document.querySelector('.background-layer');
             const sun = document.getElementById('sun');
             const moon = document.getElementById('moon');
@@ -529,16 +666,31 @@ if (isset($_GET['error'])) {
 
             const welcomeHeading = document.getElementById('welcomeHeading');
             const welcomeMessage = document.getElementById('welcomeMessage');
+            const timeEmojiElement = document.getElementById('time-emoji'); // Get the new emoji span
 
             const timePhases = ['morning', 'day', 'evening', 'night'];
-            let currentPhase = 0;
+            let currentPhaseName; // Will store the name of the phase
 
-            updateTimePhase(timePhases[currentPhase]);
+            // Determine current time phase based on user's actual time
+            const currentHour = new Date().getHours();
+            if (currentHour >= 5 && currentHour < 12) {
+                currentPhaseName = 'morning';
+            } else if (currentHour >= 12 && currentHour < 18) {
+                currentPhaseName = 'day';
+            } else if (currentHour >= 18 && currentHour < 22) {
+                currentPhaseName = 'evening';
+            } else {
+                currentPhaseName = 'night';
+            }
+
+            updateTimePhase(currentPhaseName);
 
             function updateTimePhase(phase) {
                 backgroundLayer.classList.remove('morning', 'day', 'evening', 'night');
                 backgroundLayer.classList.add(phase);
                 updateWelcomeText(phase);
+
+                let emoji = ''; // Variable to hold the emoji
 
                 switch(phase) {
                     case 'morning':
@@ -547,6 +699,7 @@ if (isset($_GET['error'])) {
                         sun.style.opacity = '1';
                         updateCloudAppearance('morning');
                         hideStars();
+                        emoji = '☀️'; // Sun emoji for morning
                         break;
                     case 'day':
                         sun.style.display = 'block';
@@ -554,6 +707,7 @@ if (isset($_GET['error'])) {
                         sun.style.opacity = '1';
                         updateCloudAppearance('day');
                         hideStars();
+                        emoji = '☀️'; // Sun emoji for day
                         break;
                     case 'evening':
                         sun.style.display = 'block';
@@ -561,6 +715,7 @@ if (isset($_GET['error'])) {
                         sun.style.opacity = '1';
                         updateCloudAppearance('evening');
                         hideStars();
+                        emoji = '🌇'; // Sunset emoji for evening
                         break;
                     case 'night':
                         sun.style.opacity = '0';
@@ -568,7 +723,12 @@ if (isset($_GET['error'])) {
                         moon.style.display = 'block';
                         setTimeout(showStars, 800);
                         updateCloudAppearance('night');
+                        emoji = '🌙'; // Moon emoji for night
                         break;
+                }
+
+                if (timeEmojiElement) {
+                    timeEmojiElement.textContent = emoji; // Set the emoji
                 }
             }
 
@@ -576,19 +736,20 @@ if (isset($_GET['error'])) {
                 switch(phase) {
                     case 'morning':
                         welcomeHeading.textContent = "Selamat Pagi! Welcome to Bumi Library <3";
-                        welcomeMessage.textContent = "Mulai hari Anda dengan membaca buku yang menginspirasi. Mari kelola perpustakaan dengan efisien.";
+                        welcomeMessage.textContent = "Awali harimu dengan semangat membaca dan temukan pengetahuan baru!";
                         break;
                     case 'day':
                         welcomeHeading.textContent = "Selamat Siang! Welcome to Bumi Library <3";
-                        welcomeMessage.textContent = "Sistem informasi perpustakaan untuk pengelolaan buku dan peminjaman yang efisien dan mudah digunakan.";
+                        welcomeMessage.textContent = "Manfaatkan waktumu untuk menjelajahi koleksi buku kami.";
                         break;
                     case 'evening':
                         welcomeHeading.textContent = "Selamat Sore! Welcome to Bumi Library <3";
-                        welcomeMessage.textContent = "Nikmati sore Anda dengan membaca buku favorit. Sistem perpustakaan yang selalu siap melayani.";
+                        welcomeMessage.textContent = "Waktu yang tepat untuk bersantai dan menikmati cerita menarik.";
                         break;
                     case 'night':
                         welcomeHeading.textContent = "Selamat Malam! Welcome to Bumi Library <3";
-                        welcomeMessage.textContent = "Perpustakaan tetap ada untuk Anda di malam hari. Mari kelola dan pinjam buku dengan mudah.";
+                        welcomeMessage.textContent = "Biarkan buku menemani malammu sebelum beristirahat.";
+                        break;
                 }
             }
 
@@ -612,13 +773,6 @@ if (isset($_GET['error'])) {
                     cloud.classList.remove('morning-cloud', 'day-cloud', 'evening-cloud', 'night-cloud');
                 });
             }
-
-            function cycleTimePhase() {
-                currentPhase = (currentPhase + 1) % timePhases.length;
-                updateTimePhase(timePhases[currentPhase]);
-            }
-
-            setInterval(cycleTimePhase, 6000); // Cycle every 6 seconds
 
             const leftPupil = document.getElementById('leftPupil');
             const rightPupil = document.getElementById('rightPupil');
@@ -699,6 +853,51 @@ if (isset($_GET['error'])) {
                     });
                 }
             });
+
+            // Real-time Clock Functionality
+            const clockTextElement = document.getElementById('clock-text'); // Target the new span for text
+
+            function updateClock() {
+                if (clockTextElement) {
+                    const now = new Date();
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    const seconds = String(now.getSeconds()).padStart(2, '0');
+                    clockTextElement.textContent = `${hours}:${minutes}:${seconds}`;
+                }
+            }
+
+            updateClock(); // Initial call to display clock immediately
+            setInterval(updateClock, 1000); // Update clock every second
+        });
+
+        // Loading Intro Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const mainContent = document.querySelector('.container-custom'); // Or your main content wrapper
+
+            if (loadingOverlay) {
+                // Ensure main content is hidden initially to prevent flash of unstyled content
+                if (mainContent) {
+                    mainContent.style.visibility = 'hidden';
+                }
+
+                // Total duration of the longest circle animation (delay + duration)
+                // circle3 has delay 0.6s and duration 1.5s = 2.1s
+                // Let's give it a bit more, say 2500ms for animations to fully complete
+                setTimeout(() => {
+                    loadingOverlay.classList.add('hidden');
+
+                    // After the fade out transition (0.5s), set display to none
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                        // Make main content visible
+                        if (mainContent) {
+                            mainContent.style.visibility = 'visible';
+                        }
+                    }, 500); // Corresponds to the transition duration of #loading-overlay
+                }, 2500);
+            }
         });
     </script>
 </body>
