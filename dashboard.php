@@ -83,35 +83,7 @@ if ($role === 'user') {
             flex-direction: column;
             background-color: #f8f9fa;
         }
-        .sidebar {
-            width: 280px;
-            background-color: #212529;
-            color: #fff;
-            min-height: 100vh;
-        }
-        .sidebar .nav-link {
-            color: rgba(255, 255, 255, 0.75);
-            padding: 10px 15px;
-            display: block;
-            text-decoration: none;
-        }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            color: #fff;
-            background-color: #343a40;
-        }
-        .sidebar .nav-link i {
-            margin-right: 8px;
-        }
-        .sidebar-header {
-            padding: 1.5rem 1rem;
-            text-align: center;
-            font-size: 1.5rem;
-            color: #fff;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .sidebar-header i {
-            font-size: 2rem;
-        }
+
         .content {
             flex: 1;
             padding: 20px;
@@ -127,58 +99,52 @@ if ($role === 'user') {
         .card-header {
             font-weight: 500;
         }
-        .logout-button-sidebar {
-            margin-top: auto;
-            padding: 10px 15px;
-        }
-        .logout-button-sidebar .nav-link {
-            background-color: #dc3545;
-            color: white;
-        }
-         .logout-button-sidebar .nav-link:hover {
-            background-color: #c82333;
-            color: white;
-        }
     </style>
 </head>
 <body>
 
     <div class="d-flex">
-        <nav class="sidebar p-3 d-flex flex-column">
-            <a href="dashboard.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none sidebar-header">
-                <i class="bi bi-book-half me-2"></i>
+        <nav class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; min-height: 100vh;">
+            <a href="dashboard.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <i class="bi bi-book-half me-2" style="font-size: 1.5rem;"></i>
                 <span class="fs-4">Bumi Library <3</span>
             </a>
-            <hr class="text-white-50">
+            <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a class="nav-link active text-white" href="dashboard.php"><i class="bi bi-house-door-fill"></i> Dashboard</a>
+                    <a class="nav-link active text-white" href="dashboard.php"><i class="bi bi-house-door-fill me-2"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="pages/buku/list_buku.php"><i class="bi bi-book-fill"></i> Daftar Buku</a>
+                    <a class="nav-link text-white" href="pages/buku/list_buku.php"><i class="bi bi-book-fill me-2"></i> Daftar Buku</a>
                 </li>
                 <?php if ($role === 'admin'): ?>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="pages/buku/tambah_buku.php"><i class="bi bi-plus-circle-fill"></i> Tambah Buku</a>
+                    <a class="nav-link text-white" href="pages/buku/tambah_buku.php"><i class="bi bi-plus-circle-fill me-2"></i> Tambah Buku</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="pages/user/list_user.php"><i class="bi bi-people-fill"></i> Manajemen User</a>
+                    <a class="nav-link text-white" href="pages/user/list_user.php"><i class="bi bi-people-fill me-2"></i> Manajemen User</a>
                 </li>
                  <li class="nav-item">
-                    <a class="nav-link text-white" href="pages/user/tambah_user.php"><i class="bi bi-person-plus-fill"></i> Tambah User</a>
+                    <a class="nav-link text-white" href="pages/user/tambah_user.php"><i class="bi bi-person-plus-fill me-2"></i> Tambah User</a>
                 </li>
                 <?php else: ?>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="pages/peminjaman/pinjam_buku.php"><i class="bi bi-journal-arrow-down"></i> Pinjam Buku</a>
+                    <a class="nav-link text-white" href="pages/peminjaman/pinjam_buku.php"><i class="bi bi-journal-arrow-down me-2"></i> Pinjam Buku</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="pages/peminjaman/daftar_pinjaman.php"><i class="bi bi-journal-bookmark-fill"></i> Buku Dipinjam</a>
+                    <a class="nav-link text-white" href="pages/peminjaman/daftar_pinjaman.php"><i class="bi bi-journal-bookmark-fill me-2"></i> Buku Dipinjam</a>
                 </li>
                 <?php endif; ?>
             </ul>
-            <hr class="text-white-50">
-             <div class="logout-button-sidebar">
-                <a class="nav-link text-white text-center" href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle me-2"></i>
+                    <strong><?php echo sanitize($_SESSION['username']); ?></strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <li><a class="dropdown-item" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                </ul>
             </div>
         </nav>
 

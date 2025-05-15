@@ -11,6 +11,11 @@ $offset = ($current_page - 1) * $limit;
 
 $search = isset($_GET['search']) ? trim(mysqli_real_escape_string($koneksi, $_GET['search'])) : '';
 
+// Sorting logic
+$allowed_sort_columns = ['id', 'judul', 'pengarang', 'penerbit', 'tahun_terbit', 'genre', 'stok'];
+$sort_column = isset($_GET['sort']) && in_array($_GET['sort'], $allowed_sort_columns) ? $_GET['sort'] : 'id'; // Default sort by ID
+$sort_order = isset($_GET['order']) && strtolower($_GET['order']) === 'desc' ? 'DESC' : 'ASC'; // Default order ASC
+
 $sql_count = "SELECT COUNT(*) as total FROM buku";
 $count_params = [];
 $count_types = '';
@@ -49,7 +54,8 @@ if (!empty($search)) {
     $params[] = &$search_param;
     $types .= 's';
 }
-$sql .= " ORDER BY judul ASC LIMIT ? OFFSET ?";
+// Append ORDER BY clause
+$sql .= " ORDER BY {$sort_column} {$sort_order} LIMIT ? OFFSET ?";
 $params[] = &$limit;
 $params[] = &$offset;
 $types .= 'ii';
@@ -72,6 +78,32 @@ mysqli_close($koneksi);
 
 $success_message = isset($_GET['success']) ? sanitize($_GET['success']) : '';
 $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
+
+function generateSortLink($columnName, $displayName, $currentSortColumn, $currentSortOrder, $currentSearch) {
+    $orderForLink = 'ASC';
+    if ($columnName === $currentSortColumn) {
+        $orderForLink = ($currentSortOrder === 'ASC') ? 'DESC' : 'ASC';
+    }
+
+    $queryParams = [];
+    $queryParams['sort'] = $columnName;
+    $queryParams['order'] = $orderForLink;
+
+    if (!empty($currentSearch)) {
+        $queryParams['search'] = $currentSearch;
+    }
+    // Sorting resets to page 1
+    $queryParams['page'] = 1;
+
+    $url = "list_buku.php?" . http_build_query($queryParams);
+
+    $icon = '';
+    if ($columnName === $currentSortColumn) {
+        $iconClass = ($currentSortOrder === 'ASC') ? 'bi-arrow-up' : 'bi-arrow-down';
+        $icon = " <i class=\"bi {$iconClass}\"></i>"; // Escaped quote for class
+    }
+    return "<a href=\"{$url}\" class=\"text-white text-decoration-none\">" . htmlspecialchars($displayName) . $icon . "</a>"; // Escaped quotes for href and class
+}
 
 ?>
 <!DOCTYPE html>
@@ -180,13 +212,13 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
                     <table class="table table-striped table-bordered table-hover shadow-sm">
                         <thead class="table-dark">
                             <tr>
-                                <th>ID</th>
-                                <th>Judul</th>
-                                <th>Pengarang</th>
-                                <th>Penerbit</th>
-                                <th>Tahun</th>
-                                <th>Genre</th>
-                                <th>Stok</th>
+                                <th><?php echo generateSortLink('id', 'ID', $sort_column, $sort_order, $search); ?></th>
+                                <th><?php echo generateSortLink('judul', 'Judul', $sort_column, $sort_order, $search); ?></th>
+                                <th><?php echo generateSortLink('pengarang', 'Pengarang', $sort_column, $sort_order, $search); ?></th>
+                                <th><?php echo generateSortLink('penerbit', 'Penerbit', $sort_column, $sort_order, $search); ?></th>
+                                <th><?php echo generateSortLink('tahun_terbit', 'Tahun', $sort_column, $sort_order, $search); ?></th>
+                                <th><?php echo generateSortLink('genre', 'Genre', $sort_column, $sort_order, $search); ?></th>
+                                <th><?php echo generateSortLink('stok', 'Stok', $sort_column, $sort_order, $search); ?></th>
                                 <?php if ($role === 'admin'): ?>
                                     <th class="text-center">Aksi</th>
                                 <?php endif; ?>
@@ -290,7 +322,7 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
                             <i class="bi bi-book me-1"></i> Bumi Library <3
                         </div>
                         <div class="text-muted small">
-                            &copy; <?php echo date('Y'); ?> | Developed with inspiration
+                            &copy; <?php echo date('Y'); ?> | Crafted with <i class="bi bi-heart-fill text-danger"></i>
                         </div>
                     </div>
                 </div>
