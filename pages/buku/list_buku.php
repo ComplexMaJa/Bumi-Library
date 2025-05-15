@@ -111,18 +111,23 @@ $error_message = isset($_GET['error']) ? sanitize($_GET['error']) : '';
                 <li>
                     <a class="nav-link active text-white" href="list_buku.php"><i class="bi bi-book-fill me-2"></i> Daftar Buku</a>
                 </li>
+                <?php if ($role !== 'admin'): ?>
                 <li>
                     <a class="nav-link text-white" href="../peminjaman/pinjam_buku.php"><i class="bi bi-journal-arrow-down me-2"></i> Pinjam Buku</a>
                 </li>
                 <li>
                     <a class="nav-link text-white" href="../peminjaman/daftar_pinjaman.php"><i class="bi bi-journal-bookmark-fill me-2"></i> Buku Dipinjam</a>
                 </li>
+                <?php endif; ?>
                 <?php if ($role === 'admin'): ?>
                 <li>
                     <a class="nav-link text-white" href="tambah_buku.php"><i class="bi bi-plus-circle-fill me-2"></i> Tambah Buku</a>
                 </li>
                 <li>
                     <a class="nav-link text-white" href="../user/list_user.php"><i class="bi bi-people-fill me-2"></i> Manajemen User</a>
+                </li>
+                <li>
+                    <a class="nav-link text-white" href="../user/tambah_user.php"><i class="bi bi-person-plus-fill me-2"></i> Tambah User</a>
                 </li>
                 <?php endif; ?>
             </ul>
