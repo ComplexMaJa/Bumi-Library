@@ -143,6 +143,10 @@ if ($role === 'user') {
                     <strong><?php echo sanitize($_SESSION['username']); ?></strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <?php if ($role !== 'admin'): ?>
+                    <li><a class="dropdown-item" href="pages/user/ubah_password.php"><i class="bi bi-key-fill me-2"></i> Ubah Password</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <?php endif; ?>
                     <li><a class="dropdown-item" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                 </ul>
             </div>

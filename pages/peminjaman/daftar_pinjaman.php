@@ -132,6 +132,10 @@ mysqli_close($koneksi);
                     <strong><?php echo sanitize($username); ?></strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <?php if ($role !== 'admin'): ?>
+                    <li><a class="dropdown-item" href="../user/ubah_password.php"><i class="bi bi-key-fill me-2"></i> Ubah Password</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <?php endif; ?>
                     <li><a class="dropdown-item" href="../../logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                 </ul>
             </div>
@@ -314,7 +318,7 @@ mysqli_close($koneksi);
                             <i class="bi bi-book me-1"></i> Bumi Library <3
                         </div>
                         <div class="text-muted small">
-                            &copy; <?php echo date('Y'); ?> | Developed with inspiration
+                            &copy; <?php echo date('Y'); ?> | Crafted with <i class="bi bi-heart-fill text-danger"></i>
                         </div>
                     </div>
                 </div>

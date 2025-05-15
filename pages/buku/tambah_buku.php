@@ -3,7 +3,7 @@ require_once '../../config/koneksi.php';
 check_login('admin');
 
 $user_id = $_SESSION['user_id'];
-$nama_user = $_SESSION['nama_user'] ?? 'Nama Pengguna'; // Fix: Use null coalescing operator
+$username = $_SESSION['username']; // Use the correct session variable
 $role = $_SESSION['role'];
 
 $judul = $pengarang = $penerbit = $tahun_terbit = $genre = $stok = '';
@@ -161,16 +161,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </li>
                 <?php endif; ?>
             </ul>
-            <hr>
-            <div class="dropdown">
+            <hr>            <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle me-2"></i>
-                    <strong><?php echo htmlspecialchars($nama_user); ?></strong>
+                    <strong><?php echo htmlspecialchars($username); ?></strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-person-circle me-2"></i> Profile</a></li>
+                    <?php if ($role !== 'admin'): ?>
+                    <li><a class="dropdown-item" href="../user/ubah_password.php"><i class="bi bi-key-fill me-2"></i> Ubah Password</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../../logout.php"><i class="bi bi-box-arrow-right me-2"></i> Sign out</a></li>
+                    <?php endif; ?>
+                    <li><a class="dropdown-item" href="../../logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                 </ul>
             </div>
         </nav>

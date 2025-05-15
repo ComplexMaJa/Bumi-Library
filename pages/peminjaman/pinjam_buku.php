@@ -157,6 +157,10 @@ mysqli_close($koneksi);
                     <strong><?php echo htmlspecialchars($username); ?></strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <?php if ($role !== 'admin'): ?>
+                    <li><a class="dropdown-item" href="../user/ubah_password.php"><i class="bi bi-key-fill me-2"></i> Ubah Password</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <?php endif; ?>
                     <li><a class="dropdown-item" href="../../logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                 </ul>
             </div>
@@ -230,9 +234,9 @@ mysqli_close($koneksi);
                                 <tr class="animate__animated animate__fadeIn" style="animation-delay: <?php echo ($index * 0.05) + 0.35; ?>s;">
                                     <th scope="row"><?php echo $offset + $index + 1; ?></th>
                                     <td>
-                                        <img src="../../assets/book_images/<?php echo !empty($book['gambar']) ? htmlspecialchars($book['gambar']) : 'default-book.jpg'; ?>"
+                                        <img src="../../assets/book_images/<?php echo !empty(trim($book['gambar'])) ? htmlspecialchars(trim($book['gambar'])) : 'contoh.png'; ?>"
                                              alt="Cover <?php echo htmlspecialchars($book['judul']); ?>" class="img-thumbnail book-cover-small"
-                                             onerror="this.onerror=null; this.src='../../assets/book_images/default-book.jpg';">
+                                             onerror="this.onerror=null; this.src='../../assets/book_images/contoh.png';">
                                     </td>
                                     <td><?php echo htmlspecialchars($book['judul']); ?></td>
                                     <td><?php echo htmlspecialchars($book['pengarang']); ?></td>
