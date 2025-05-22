@@ -103,6 +103,8 @@ if (isset($_GET['error'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Bumi Library <3</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link href="assets/bootstrap.css/css/theme.css" rel="stylesheet">
     <style>
         body {
@@ -114,36 +116,36 @@ if (isset($_GET['error'])) {
         .form-control, .input-group-text {
             border-color: #dee2e6;
         }
-        
+
         .form-control {
             font-size: 1rem;
         }
-        
+
         .input-group {
             transition: all 0.2s ease;
         }
-        
+
         .input-group:hover {
             box-shadow: 0 .25rem .75rem rgba(0, 123, 255, 0.1) !important;
         }
-        
+
         .input-group:focus-within {
             box-shadow: 0 .25rem 1rem rgba(0, 123, 255, 0.15) !important;
         }
-        
+
         .input-group-text svg {
             opacity: 0.7;
         }
-        
+
         /* Clean, modern form look */
         .input-group, .btn {
             border-radius: 0.375rem;
         }
-        
+
         .btn-primary {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-1px);
             box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.1) !important;
@@ -563,9 +565,23 @@ if (isset($_GET['error'])) {
             border: 1px solid #dee2e6; /* Standard Bootstrap border */
             box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05); /* Subtle, clean shadow */
         }
+
+        /* CSS for page transitions */
+        body.page-transition {
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        body.fade-in {
+            opacity: 1;
+        }
+
+        body.fade-out {
+            opacity: 0;
+        }
     </style>
 </head>
-<body>
+<body class="page-transition">
     <div id="loading-overlay">
         <div class="loader-container">
             <img src="assets/logosmk.png" alt="Logo" class="loading-logo-intro">
@@ -637,30 +653,36 @@ if (isset($_GET['error'])) {
                                 </div>
                             <?php endif; ?>
 
+                            <?php if (isset($_GET['success'])): ?>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <?php echo htmlspecialchars($_GET['success']); ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            <?php endif; ?>
+
                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                 <div class="mb-4">
+                                    <label for="username" class="form-label visually-hidden">Username</label>
                                     <div class="input-group shadow-sm rounded overflow-hidden">
-                                        <span class="input-group-text bg-white border-end-0 text-secondary py-3">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                        <span class="input-group-text bg-white border-end-0 py-3 ps-4">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person text-secondary" viewBox="0 0 16 16">
                                                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
                                             </svg>
                                         </span>
-                                        <input type="text" class="form-control border-start-0 py-3" id="username" name="username" placeholder="Username" required autofocus>
+                                        <input type="text" class="form-control border-start-0 py-3" id="username" name="username" placeholder="Username" required value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
                                     </div>
                                 </div>
                                 <div class="mb-4">
+                                    <label for="passwordInput" class="form-label visually-hidden">Password</label>
                                     <div class="input-group shadow-sm rounded overflow-hidden">
-                                        <span class="input-group-text bg-white border-end-0 text-secondary py-3">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
-                                                <path d="M8 1a3 3 0 0 0-3 3v3H4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-1V4a3 3 0 0 0-3-3zm-2 3a2 2 0 1 1 4 0v3H6V4zm-2 5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/>
+                                        <span class="input-group-text bg-white border-end-0 py-3 ps-4">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-lock text-secondary" viewBox="0 0 16 16">
+                                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
                                             </svg>
                                         </span>
-                                        <input type="password" class="form-control border-start-0 border-end-0 py-3" name="password" id="passwordInput" placeholder="Password" autocomplete="current-password" required>
-                                        <span class="input-group-text bg-white border-start-0 py-3" style="cursor:pointer;" id="togglePassword">
-                                            <svg id="togglePasswordIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.133 13.133 0 0 1 1.172 8z"/>
-                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm0 1a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
-                                            </svg>
+                                        <input type="password" class="form-control border-start-0 py-3" name="password" id="passwordInput" placeholder="Password" required>
+                                        <span class="input-group-text bg-white border-start-0 py-3 px-3" style="cursor:pointer;" id="togglePassword">
+                                            <i id="togglePasswordIcon" class="bi bi-eye-fill text-secondary" style="font-size: 1rem;"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -670,7 +692,10 @@ if (isset($_GET['error'])) {
                                 <div class="d-grid gap-2 mt-4">
                                     <button class="btn btn-primary text-white py-3 rounded-pill fw-semibold shadow-sm" type="submit">LOGIN</button>
                                 </div>
-                                
+
+                                <p class="mt-3 mb-0 text-secondary text-center small">
+                                    Belum punya akun? <a href="register.php" class="text-decoration-none fw-medium">Daftar di sini</a>
+                                </p>
                                 <p class="mt-4 mb-0 text-secondary text-center small">&copy; Bumi Library <3 <?php echo date("Y"); ?></p>
                             </form>
                         </div>
@@ -690,23 +715,39 @@ if (isset($_GET['error'])) {
         // Password peek functionality
         const passwordInput = document.getElementById('passwordInput');
         const togglePassword = document.getElementById('togglePassword');
-        const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+        const togglePasswordIcon = document.getElementById('togglePasswordIcon'); // This now refers to the <i> element
         if (passwordInput && togglePassword && togglePasswordIcon) {
             togglePassword.addEventListener('click', function () {
                 const type = passwordInput.type === 'password' ? 'text' : 'password';
                 passwordInput.type = type;
-                // Toggle SVG icon between eye and eye-slash
+                // Toggle Bootstrap icon classes
                 if (type === 'text') {
-                    togglePasswordIcon.classList.remove('bi-eye');
-                    togglePasswordIcon.classList.add('bi-eye-slash');
+                    togglePasswordIcon.classList.remove('bi-eye-fill');
+                    togglePasswordIcon.classList.add('bi-eye-slash-fill');
                 } else {
-                    togglePasswordIcon.classList.remove('bi-eye-slash');
-                    togglePasswordIcon.classList.add('bi-eye');
+                    togglePasswordIcon.classList.remove('bi-eye-slash-fill');
+                    togglePasswordIcon.classList.add('bi-eye-fill');
                 }
             });
         }
 
+        // Forgot password text change
+        const forgotPasswordLink = document.querySelector('a[href="#"].text-decoration-none.text-secondary');
+        if (forgotPasswordLink) {
+            forgotPasswordLink.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default link behavior
+                const originalText = this.textContent;
+                this.textContent = 'Pasrah Saja';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                }, 3000); // Revert back after 3 seconds
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Add fade-in effect on page load
+            document.body.classList.add('fade-in');
+
             const loadingOverlay = document.getElementById('loading-overlay');
 
             // Hide loading overlay after animation/delay
@@ -733,9 +774,9 @@ if (isset($_GET['error'])) {
             const currentHour = new Date().getHours();
             if (currentHour >= 5 && currentHour < 12) {
                 currentPhaseName = 'morning';
-            } else if (currentHour >= 12 && currentHour < 18) {
+            } else if (currentHour >= 12 && currentHour < 15) {
                 currentPhaseName = 'day';
-            } else if (currentHour >= 18 && currentHour < 22) {
+            } else if (currentHour >= 15 && currentHour < 18) {
                 currentPhaseName = 'evening';
             } else {
                 currentPhaseName = 'night';
@@ -927,6 +968,19 @@ if (isset($_GET['error'])) {
 
             updateClock(); // Initial call to display clock immediately
             setInterval(updateClock, 1000); // Update clock every second
+
+            // Handle fade-out for navigation to register.php
+            const registerLink = document.querySelector('a[href="register.php"]');
+            if (registerLink) {
+                registerLink.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent default link behavior
+                    document.body.classList.remove('fade-in');
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => {
+                        window.location.href = this.href; // Navigate after fade-out
+                    }, 400); // Match CSS transition duration
+                });
+            }
         });
 
         // Loading Intro Animation
