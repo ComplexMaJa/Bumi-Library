@@ -569,7 +569,7 @@ if (isset($_GET['error'])) {
         /* CSS for page transitions */
         body.page-transition {
             opacity: 0;
-            transition: opacity 0.4s ease-in-out;
+            transition: opacity 1s ease-in-out; /* Consistent with register.php */
         }
 
         body.fade-in {
@@ -694,7 +694,7 @@ if (isset($_GET['error'])) {
                                 </div>
 
                                 <p class="mt-3 mb-0 text-secondary text-center small">
-                                    Belum punya akun? <a href="register.php" class="text-decoration-none fw-medium">Daftar di sini</a>
+                                    Belum punya akun? <a href="register.php" id="registerLink" class="text-decoration-none fw-medium">Daftar di sini</a>
                                 </p>
                                 <p class="mt-4 mb-0 text-secondary text-center small">&copy; Bumi Library <3 <?php echo date("Y"); ?></p>
                             </form>
@@ -712,66 +712,88 @@ if (isset($_GET['error'])) {
 
     <script src="assets/bootstrap.js/bootstrap.bundle.min.js"></script>
     <script>
-        // Password peek functionality
-        const passwordInput = document.getElementById('passwordInput');
-        const togglePassword = document.getElementById('togglePassword');
-        const togglePasswordIcon = document.getElementById('togglePasswordIcon'); // This now refers to the <i> element
-        if (passwordInput && togglePassword && togglePasswordIcon) {
-            togglePassword.addEventListener('click', function () {
-                const type = passwordInput.type === 'password' ? 'text' : 'password';
-                passwordInput.type = type;
-                // Toggle Bootstrap icon classes
-                if (type === 'text') {
-                    togglePasswordIcon.classList.remove('bi-eye-fill');
-                    togglePasswordIcon.classList.add('bi-eye-slash-fill');
-                } else {
-                    togglePasswordIcon.classList.remove('bi-eye-slash-fill');
-                    togglePasswordIcon.classList.add('bi-eye-fill');
-                }
-            });
-        }
-
-        // Forgot password text change
-        const forgotPasswordLink = document.querySelector('a[href="#"].text-decoration-none.text-secondary');
-        if (forgotPasswordLink) {
-            forgotPasswordLink.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
-                const originalText = this.textContent;
-                this.textContent = 'Pasrah Saja';
-                setTimeout(() => {
-                    this.textContent = originalText;
-                }, 3000); // Revert back after 3 seconds
-            });
-        }
-
+        // All JS within one DOMContentLoaded listener
         document.addEventListener('DOMContentLoaded', function() {
-            // Add fade-in effect on page load
+            // Fade-in effect on page load
             document.body.classList.add('fade-in');
 
+            // Password peek functionality
+            const passwordInput = document.getElementById('passwordInput');
+            const togglePassword = document.getElementById('togglePassword');
+            const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+            if (passwordInput && togglePassword && togglePasswordIcon) {
+                togglePassword.addEventListener('click', function () {
+                    const type = passwordInput.type === 'password' ? 'text' : 'password';
+                    passwordInput.type = type;
+                    if (type === 'text') {
+                        togglePasswordIcon.classList.remove('bi-eye-fill');
+                        togglePasswordIcon.classList.add('bi-eye-slash-fill');
+                    } else {
+                        togglePasswordIcon.classList.remove('bi-eye-slash-fill');
+                        togglePasswordIcon.classList.add('bi-eye-fill');
+                    }
+                });
+            }
+
+            // Forgot password text change
+            const forgotPasswordLink = document.querySelector('a[href="#"].text-decoration-none.text-secondary');
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const originalText = this.textContent;
+                    this.textContent = 'Pasrah Saja';
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                    }, 3000);
+                });
+            }
+
+            // Page transition for navigating to register.php
+            const registerLink = document.getElementById('registerLink'); 
+            if (registerLink) {
+                registerLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.body.classList.remove('fade-in');
+                    document.body.classList.add('fade-out');
+                    setTimeout(function() {
+                        window.location.href = registerLink.href;
+                    }, 1000); // Matches 1s CSS transition
+                });
+            }
+
+            // Loading Intro Animation & Overlay
             const loadingOverlay = document.getElementById('loading-overlay');
+            const mainContent = document.querySelector('.container-fluid'); 
 
-            // Hide loading overlay after animation/delay
-            setTimeout(() => {
-                if (loadingOverlay) {
-                    loadingOverlay.classList.add('hidden');
+            if (loadingOverlay) {
+                if (mainContent) {
+                    mainContent.style.visibility = 'hidden';
                 }
-            }, 2500); // Adjust time as needed (e.g., 2.5 seconds)
+                setTimeout(() => {
+                    loadingOverlay.classList.add('hidden');
+                    if (mainContent) {
+                        mainContent.style.visibility = 'visible';
+                    }
+                    setTimeout(() => {
+                        if (loadingOverlay) loadingOverlay.style.display = 'none';
+                    }, 500); // Matches #loading-overlay opacity transition (0.5s)
+                }, 2500); 
+            }
 
+            // Dynamic Background and Clock Logic
             const backgroundLayer = document.querySelector('.background-layer');
             const sun = document.getElementById('sun');
             const moon = document.getElementById('moon');
             const stars = document.querySelectorAll('.star');
             const clouds = document.querySelectorAll('.cloud');
-
             const welcomeHeading = document.getElementById('welcomeHeading');
             const welcomeMessage = document.getElementById('welcomeMessage');
-            const timeEmojiElement = document.getElementById('time-emoji'); // Get the new emoji span
-
-            const timePhases = ['morning', 'day', 'evening', 'night'];
-            let currentPhaseName; // Will store the name of the phase
-
-            // Determine current time phase based on user's actual time
+            const timeEmojiElement = document.getElementById('time-emoji');
+            const clockTextElement = document.getElementById('clock-text');
+            
+            let currentPhaseName;
             const currentHour = new Date().getHours();
+
             if (currentHour >= 5 && currentHour < 12) {
                 currentPhaseName = 'morning';
             } else if (currentHour >= 12 && currentHour < 15) {
@@ -785,53 +807,48 @@ if (isset($_GET['error'])) {
             updateTimePhase(currentPhaseName);
 
             function updateTimePhase(phase) {
-                backgroundLayer.classList.remove('morning', 'day', 'evening', 'night');
-                backgroundLayer.classList.add(phase);
+                if (backgroundLayer) {
+                    backgroundLayer.classList.remove('morning', 'day', 'evening', 'night');
+                    backgroundLayer.classList.add(phase);
+                }
                 updateWelcomeText(phase);
 
-                let emoji = ''; // Variable to hold the emoji
+                let emoji = '';
+                if (sun && moon) {
+                    sun.style.display = 'none'; // Hide both initially
+                    moon.style.display = 'none';
+                    sun.style.opacity = '0';
+                    moon.style.opacity = '0';
 
-                switch(phase) {
-                    case 'morning':
-                        sun.style.display = 'block';
-                        moon.style.opacity = '0';
-                        sun.style.opacity = '1';
-                        updateCloudAppearance('morning');
-                        hideStars();
-                        emoji = '☀️'; // Sun emoji for morning
-                        break;
-                    case 'day':
-                        sun.style.display = 'block';
-                        moon.style.opacity = '0';
-                        sun.style.opacity = '1';
-                        updateCloudAppearance('day');
-                        hideStars();
-                        emoji = '☀️'; // Sun emoji for day
-                        break;
-                    case 'evening':
-                        sun.style.display = 'block';
-                        moon.style.opacity = '0';
-                        sun.style.opacity = '1';
-                        updateCloudAppearance('evening');
-                        hideStars();
-                        emoji = '🌇'; // Sunset emoji for evening
-                        break;
-                    case 'night':
-                        sun.style.opacity = '0';
-                        moon.style.opacity = '1';
-                        moon.style.display = 'block';
-                        setTimeout(showStars, 800);
-                        updateCloudAppearance('night');
-                        emoji = '🌙'; // Moon emoji for night
-                        break;
+                    switch(phase) {
+                        case 'morning':
+                        case 'day':
+                        case 'evening':
+                            sun.style.display = 'block';
+                            sun.style.opacity = '1';
+                            emoji = (phase === 'evening') ? '🌇' : '☀️';
+                            break;
+                        case 'night':
+                            moon.style.display = 'block';
+                            moon.style.opacity = '1';
+                            emoji = '🌙';
+                            break;
+                    }
+                }
+                updateCloudAppearance(phase);
+                if(phase === 'night') {
+                    setTimeout(showStars, 800); // Delay showing stars slightly for night transition
+                } else {
+                    hideStars();
                 }
 
                 if (timeEmojiElement) {
-                    timeEmojiElement.textContent = emoji; // Set the emoji
+                    timeEmojiElement.textContent = emoji;
                 }
             }
 
             function updateWelcomeText(phase) {
+                if (!welcomeHeading || !welcomeMessage) return;
                 switch(phase) {
                     case 'morning':
                         welcomeHeading.textContent = "Selamat Pagi! Welcome to Bumi Library <3";
@@ -856,7 +873,7 @@ if (isset($_GET['error'])) {
                 stars.forEach((star, index) => {
                     const randomDelay = 100 + Math.random() * 1000 + index * 50;
                     setTimeout(() => {
-                        star.style.opacity = '0.8'; // Set a default opacity
+                        star.style.opacity = '0.8';
                     }, randomDelay);
                 });
             }
@@ -868,61 +885,54 @@ if (isset($_GET['error'])) {
             }
 
             function updateCloudAppearance(phase) {
-                clouds.forEach(cloud => {
-                    cloud.classList.remove('morning-cloud', 'day-cloud', 'evening-cloud', 'night-cloud');
-                });
+                // This function can be expanded if clouds need more specific JS updates per phase.
+                // For now, CSS handles most of it (.night .cloud, etc.)
             }
 
+            // Book Character Logic
             const leftPupil = document.getElementById('leftPupil');
             const rightPupil = document.getElementById('rightPupil');
             const bookCharacter = document.getElementById('bookCharacter');
-            const eyes = Array.from(document.querySelectorAll('.eye')); // Ensure it's an array for forEach
+            const eyes = Array.from(document.querySelectorAll('.eye'));
             const leftPanel = document.querySelector('.col-md-6.text-white');
-            let panelRect = leftPanel.getBoundingClientRect();
+            let panelRect = leftPanel ? leftPanel.getBoundingClientRect() : null;
 
             window.addEventListener('resize', () => {
-                panelRect = leftPanel.getBoundingClientRect();
+                if(leftPanel) panelRect = leftPanel.getBoundingClientRect();
             });
 
-            leftPanel.addEventListener('mousemove', function(event) {
-                if (!leftPupil || !rightPupil || !bookCharacter || !leftPanel) return;
+            if(leftPanel) {
+                leftPanel.addEventListener('mousemove', function(event) {
+                    if (!leftPupil || !rightPupil || !bookCharacter || !panelRect) return;
+                    const mouseX = event.clientX - panelRect.left;
+                    const mouseY = event.clientY - panelRect.top;
 
-                const mouseX = event.clientX - panelRect.left;
-                const mouseY = event.clientY - panelRect.top;
+                    [leftPupil, rightPupil].forEach(pupil => {
+                        const eyeRect = pupil.parentElement.getBoundingClientRect();
+                        const eyeCenterX = eyeRect.left - panelRect.left + eyeRect.width / 2;
+                        const eyeCenterY = eyeRect.top - panelRect.top + eyeRect.height / 2;
+                        const deltaX = mouseX - eyeCenterX;
+                        const deltaY = mouseY - eyeCenterY;
+                        const angle = Math.atan2(deltaY, deltaX);
+                        const maxPupilMove = pupil.parentElement.offsetWidth / 4;
+                        const distance = Math.min(maxPupilMove, Math.hypot(deltaX, deltaY) * 0.2);
+                        const moveX = Math.cos(angle) * distance;
+                        const moveY = Math.sin(angle) * distance;
+                        pupil.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+                    });
 
-                // Pupil movement
-                [leftPupil, rightPupil].forEach(pupil => {
-                    const eyeRect = pupil.parentElement.getBoundingClientRect();
-                    const eyeCenterX = eyeRect.left - panelRect.left + eyeRect.width / 2;
-                    const eyeCenterY = eyeRect.top - panelRect.top + eyeRect.height / 2;
+                    const maxTilt = 6;
+                    const bookTiltX = (mouseY / panelRect.height - 0.5) * maxTilt * -1.2;
+                    const bookTiltY = (mouseX / panelRect.width - 0.5) * maxTilt * 1.2;
+                    const maxMove = 4;
+                    const bookMoveX = (mouseX / panelRect.width - 0.5) * maxMove;
+                    const bookMoveYsync = (mouseY / panelRect.height - 0.5) * maxMove;
 
-                    const deltaX = mouseX - eyeCenterX;
-                    const deltaY = mouseY - eyeCenterY;
-                    const angle = Math.atan2(deltaY, deltaX);
-
-                    const maxPupilMove = pupil.parentElement.offsetWidth / 4; // Max distance pupil can move
-                    const distance = Math.min(maxPupilMove, Math.hypot(deltaX, deltaY) * 0.2);
-
-                    const moveX = Math.cos(angle) * distance;
-                    const moveY = Math.sin(angle) * distance;
-
-                    pupil.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+                    if (!document.activeElement || (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA')) {
+                        if(bookCharacter) bookCharacter.style.transform = `translateX(calc(-50% + ${bookMoveX}px)) translateY(${bookMoveYsync}px) rotateX(${bookTiltX}deg) rotateY(${bookTiltY}deg) scale(1)`;
+                    }
                 });
-
-                // Book character tilt and slight movement
-                const maxTilt = 6; // Max degrees to tilt
-                const bookTiltX = (mouseY / panelRect.height - 0.5) * maxTilt * -1.2;
-                const bookTiltY = (mouseX / panelRect.width - 0.5) * maxTilt * 1.2;
-
-                const maxMove = 4; // Max pixels to move
-                const bookMoveX = (mouseX / panelRect.width - 0.5) * maxMove;
-                const bookMoveYsync = (mouseY / panelRect.height - 0.5) * maxMove;
-
-                // Apply if not focused on input
-                if (!document.activeElement || (document.activeElement.id !== 'username' && document.activeElement.id !== 'password')) {
-                    bookCharacter.style.transform = `translateX(calc(-50% + ${bookMoveX}px)) translateY(${bookMoveYsync}px) rotateX(${bookTiltX}deg) rotateY(${bookTiltY}deg) scale(1)`;
-                }
-            });
+            }
 
             function blink() {
                 if (eyes.length > 0) {
@@ -932,12 +942,12 @@ if (isset($_GET['error'])) {
                     }, 150); // Blink duration
                 }
             }
-            setInterval(blink, 3000 + Math.random() * 3000); // Blink every 3-6 seconds
+            if(eyes.length > 0) setInterval(blink, 3000 + Math.random() * 3000);
 
-            const usernameInput = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
+            const usernameInputLogin = document.getElementById('username'); 
+            const passwordInputLogin = document.getElementById('passwordInput'); 
 
-            [usernameInput, passwordInput].forEach(input => {
+            [usernameInputLogin, passwordInputLogin].forEach(input => {
                 if (input) {
                     input.addEventListener('focus', () => {
                         if (bookCharacter) {
@@ -946,7 +956,6 @@ if (isset($_GET['error'])) {
                     });
                     input.addEventListener('blur', () => {
                         if (bookCharacter) {
-                            // Reset to a neutral position, mousemove will take over for tilt/movement
                             bookCharacter.style.transform = 'translateX(-50%) translateY(0px) scale(1) rotateX(0deg) rotateY(0deg)';
                         }
                     });
@@ -954,8 +963,6 @@ if (isset($_GET['error'])) {
             });
 
             // Real-time Clock Functionality
-            const clockTextElement = document.getElementById('clock-text'); // Target the new span for text
-
             function updateClock() {
                 if (clockTextElement) {
                     const now = new Date();
@@ -965,51 +972,8 @@ if (isset($_GET['error'])) {
                     clockTextElement.textContent = `${hours}:${minutes}:${seconds}`;
                 }
             }
-
-            updateClock(); // Initial call to display clock immediately
-            setInterval(updateClock, 1000); // Update clock every second
-
-            // Handle fade-out for navigation to register.php
-            const registerLink = document.querySelector('a[href="register.php"]');
-            if (registerLink) {
-                registerLink.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent default link behavior
-                    document.body.classList.remove('fade-in');
-                    document.body.classList.add('fade-out');
-                    setTimeout(() => {
-                        window.location.href = this.href; // Navigate after fade-out
-                    }, 400); // Match CSS transition duration
-                });
-            }
-        });
-
-        // Loading Intro Animation
-        document.addEventListener('DOMContentLoaded', () => {
-            const loadingOverlay = document.getElementById('loading-overlay');
-            const mainContent = document.querySelector('.container-custom'); // Or your main content wrapper
-
-            if (loadingOverlay) {
-                // Ensure main content is hidden initially to prevent flash of unstyled content
-                if (mainContent) {
-                    mainContent.style.visibility = 'hidden';
-                }
-
-                // Total duration of the longest circle animation (delay + duration)
-                // circle3 has delay 0.6s and duration 1.5s = 2.1s
-                // Let's give it a bit more, say 2500ms for animations to fully complete
-                setTimeout(() => {
-                    loadingOverlay.classList.add('hidden');
-
-                    // After the fade out transition (0.5s), set display to none
-                    setTimeout(() => {
-                        loadingOverlay.style.display = 'none';
-                        // Make main content visible
-                        if (mainContent) {
-                            mainContent.style.visibility = 'visible';
-                        }
-                    }, 500); // Corresponds to the transition duration of #loading-overlay
-                }, 2500);
-            }
+            updateClock();
+            setInterval(updateClock, 1000);
         });
     </script>
 </body>
