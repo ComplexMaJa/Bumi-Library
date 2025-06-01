@@ -749,7 +749,7 @@ if (isset($_GET['error'])) {
             }
 
             // Page transition for navigating to register.php
-            const registerLink = document.getElementById('registerLink'); 
+            const registerLink = document.getElementById('registerLink');
             if (registerLink) {
                 registerLink.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -763,7 +763,7 @@ if (isset($_GET['error'])) {
 
             // Loading Intro Animation & Overlay
             const loadingOverlay = document.getElementById('loading-overlay');
-            const mainContent = document.querySelector('.container-fluid'); 
+            const mainContent = document.querySelector('.container-fluid');
 
             if (loadingOverlay) {
                 if (mainContent) {
@@ -777,7 +777,7 @@ if (isset($_GET['error'])) {
                     setTimeout(() => {
                         if (loadingOverlay) loadingOverlay.style.display = 'none';
                     }, 500); // Matches #loading-overlay opacity transition (0.5s)
-                }, 2500); 
+                }, 2500);
             }
 
             // Dynamic Background and Clock Logic
@@ -790,7 +790,7 @@ if (isset($_GET['error'])) {
             const welcomeMessage = document.getElementById('welcomeMessage');
             const timeEmojiElement = document.getElementById('time-emoji');
             const clockTextElement = document.getElementById('clock-text');
-            
+
             let currentPhaseName;
             const currentHour = new Date().getHours();
 
@@ -944,8 +944,8 @@ if (isset($_GET['error'])) {
             }
             if(eyes.length > 0) setInterval(blink, 3000 + Math.random() * 3000);
 
-            const usernameInputLogin = document.getElementById('username'); 
-            const passwordInputLogin = document.getElementById('passwordInput'); 
+            const usernameInputLogin = document.getElementById('username');
+            const passwordInputLogin = document.getElementById('passwordInput');
 
             [usernameInputLogin, passwordInputLogin].forEach(input => {
                 if (input) {
